@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Plot Demo</title>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/knockout/2.0.0/knockout-min.js"></script>
+    <script type="text/javascript" src="../jquery.plot.js"></script>
+</head>
+<body>
+<h1>Interactive Plot Example</h1>
+<p>This example uses jQueryUI and KnockoutJS to allow you to tweak variables in the function.  It also refers to a
+canvas directly instead of having the plugin create a canvas within a container.</p>
+<table>
+    <tr>
+        <td>
+            <canvas id="plot" style="border: 1px solid #000; margin-right: 20px"></canvas>
+        </td>
+        <td>
+            <p>Left / Right:</p>
+            <div id="leftRightSlider"></div>
+            <p>Up / Down:</p>
+            <div id="upDownSlider"></div>
+            <p>Fat / Skinny:</p>
+            <div id="fatSkinnySlider"></div>
+        </td>
+    </tr>
+</table>
+</body>
+<script type="text/javascript">
+$(function () {
+    var viewModel = {
+        leftRight: ko.observable(0),
+        upDown: ko.observable(0),
+        fatSkinny: ko.observable(2)
+    };
+    ko.computed(function () {
+        var leftRight = viewModel.leftRight(),
+            upDown = viewModel.upDown(),
+            fatSkinny = viewModel.fatSkinny();
+        $('#plot').plot({
+            width: 320,
+            height: 250,
+            functions: [
+                {
+                    plotColor: '#00f',
+                    f: function (x) {
+                        return Math.pow((x * fatSkinny) - leftRight, 2) - upDown;
+                    }
+                }
+            ],
+            offset: { x:160, y:100 }
+        });
+    }, viewModel);
+    $('#leftRightSlider').slider({
+        min: -10,
+        max: 10,
+        step: 0.05,
+        value: viewModel.leftRight(),
+        slide: function (e, ui) {
+            viewModel.leftRight(ui.value);
+        }
+    });
+    $('#upDownSlider').slider({
+        min: -10,
+        max: 10,
+        step: 0.05,
+        value: viewModel.upDown(),
+        slide: function (e, ui) {
+            viewModel.upDown(ui.value);
+        }
+    });
+    $('#fatSkinnySlider').slider({
+        min: 0.1,
+        max: 4,
+        step: 0.05,
+        value: viewModel.fatSkinny(),
+        slide: function (e, ui) {
+            viewModel.fatSkinny(ui.value);
+        }
+    });
+    ko.applyBindings(viewModel);
+});
+</script>
+</html>

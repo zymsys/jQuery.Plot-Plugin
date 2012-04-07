@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>SIN Wave Example</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../jquery.plot.js"></script>
+</head>
+<body>
+<h1>SIN Wave Plot Example</h1>
+<p>In this example we define a function for y = sin(x) and set a longer width for our plot.</p>
+<div id="container"></div>
+</body>
+<script type="text/javascript">
+$(function () {
+    $('#container').plot({
+        width: 300,
+        functions: [
+            {
+                plotColor: '#0000ff',
+                f: function (x) {
+                    return Math.sin(x);
+                }
+            }
+        ]
+    });
+});
+</script>
+</html>
