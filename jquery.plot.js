@@ -108,7 +108,7 @@
             context.strokeStyle = f.plotColor;
             context.beginPath();
             for (x = settings.extents.left; x < settings.extents.right; x += settings.granularity) {
-                y = f.f(x * settings.ratio) / settings.ratio;
+                y = f.f(x * settings.ratio, context) / settings.ratio;
                 if (isNaN(y)) {
                     initialPoint = true;
                     continue;
