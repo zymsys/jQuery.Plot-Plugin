@@ -103,20 +103,22 @@
         }
 
         function drawPlot(f) {
-            var y,
-                x = settings.extents.left,
+            var x,y,
                 initialPoint = true;
             context.strokeStyle = f.plotColor;
             context.beginPath();
-            while (x < settings.extents.right) {
+            for (x = settings.extents.left; x < settings.extents.right; x += settings.granularity) {
                 y = f.f(x * settings.ratio) / settings.ratio;
+                if (isNaN(y)) {
+                    initialPoint = true;
+                    continue;
+                }
                 if (initialPoint) {
                     moveTo(x,y);
                     initialPoint = false;
                 } else {
                     lineTo(x,y);
                 }
-                x += settings.granularity;
             }
             context.stroke();
         }
